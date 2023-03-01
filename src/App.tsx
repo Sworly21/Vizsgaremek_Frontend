@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
-import { render } from '@testing-library/react';
 
 interface State{
   newUsername: string;
@@ -33,7 +31,7 @@ class App extends Component<{}, State>{
     passwordAgain: newPasswordAgain,
   }
 
-  let response = await fetch ('http://localhost:3000/register',{
+  await fetch ('http://localhost:3000/register',{
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'},
