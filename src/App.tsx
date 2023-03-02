@@ -1,64 +1,36 @@
-import React, { Component } from 'react';
+import React, { Component, FormEvent } from 'react';
+import logo from './logo.svg';
 import './App.css';
+import ProfileData from './ProfileData';
+import LoginForm from './components/LoginForm';
+import ProfilePage from './components/ProfilePage';
 
-interface State{
-  newUsername: string;
-  newEmail: string;
-  newPassword: string;
-  newPasswordAgain: string;
+interface State {
+  authToken: string;
 }
 
-class App extends Component<{}, State>{
-  constructor(props: {}){
+class App extends Component<{}, State> {
+
+  constructor(props: {}) {
     super(props);
-  
-  
-  this.state = {
-    newUsername: "",
-    newEmail: "",
-    newPassword: "",
-    newPasswordAgain: "",
+
+    this.state = {
+      authToken: '',
     }
   }
 
-  newUser =async () => {
-  const {newUsername, newEmail, newPassword, newPasswordAgain} = this.state;
-    
-  const adat = {
-    username: newUsername,
-    email: newEmail,
-    password: newPassword,
-    passwordAgain: newPasswordAgain,
-  }
+  render() {
+    const { authToken } = this.state;
+    const loggedIn = authToken != '';
 
-  await fetch ('http://localhost:3000/register',{
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'},
-    body: JSON.stringify(adat)
-  });  
-  }
-    
-
-  render(){
-    const {newUsername, newEmail, newPassword, newPasswordAgain} = this.state;
-    return <div className='container'>
-        <div className='row'>
-          <div className='col-lg-4'>
-            Felhasználónév: <input type="text" value={newUsername} onChange={e => this.setState({ newUsername : e.currentTarget.value})}/><br/>
-          </div>
-          <div className='col-lg-4'>
-            E-mail cím: <input type="text" value={newEmail} onChange={e => this.setState({ newEmail : e.currentTarget.value})}/><br/>
-          </div>
-          <div className='col-lg-4'>
-            Jelszó:<input type="password" value={newPassword} onChange={e => this.setState({ newPassword : e.currentTarget.value})}/><br/>
-          </div>
-          <div className='col-lg-4'>
-            Jelszó újra:<input type="password" value={newPasswordAgain} onChange={e => this.setState({ newPasswordAgain : e.currentTarget.value})}/><br/>
-          </div>
-          <button onClick={this.newUser} className='btn btn-primary' >Regisztáció</button>
-        </div>
+    return <div>
+      <LoginForm
+        authToken={authToken}
+        onAuthTokenChange={(token) => this.setState({ authToken: token })}
+      />
+      
     </div>
   }
 }
+
 export default App;
